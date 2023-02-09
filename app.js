@@ -22,10 +22,10 @@ Client.on('ready', (client) => {
 });
 
 Client.on('messageCreate', (message) => {
-    const { content } = message;
-    if (!message.author.bot) {
+    const { content, author } = message;
+    if (!message.author.bot && !message.author.system) {
         if (content.toLowerCase().includes('hello') || content.toLowerCase().includes('util')) {
-            message.reply('Hello World!');
+            message.reply('Hello World! to you ' + author.username);
         }
     }
 });
