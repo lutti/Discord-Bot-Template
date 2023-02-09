@@ -1,0 +1,24 @@
+{
+  "name": "discord-bot-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lutti/Discord-Bot-Template.git"
+  },
+  "keywords": [],
+  "author": "Lutti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lutti/Discord-Bot-Template/issues"
+  },
+  "homepage": "https://github.com/lutti/Discord-Bot-Template#readme",
+  "dependencies": {
+    "discord.js": "^14.7.1"
+  }
+}
