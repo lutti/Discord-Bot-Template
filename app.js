@@ -3,6 +3,7 @@ const { token } = require('./config.json');
 
 const Client = new Discord.Client({
     intents: [
+        Discord.GatewayIntentBits.GuildPresences,
         Discord.GatewayIntentBits.GuildMembers,
         Discord.GatewayIntentBits.GuildMessages,
         Discord.GatewayIntentBits.DirectMessages,
@@ -26,6 +27,37 @@ Client.on('messageCreate', (message) => {
     if (!message.author.bot && !message.author.system) {
         if (content.toLowerCase().includes('hello') || content.toLowerCase().includes('util')) {
             message.reply('Hello World! to you ' + author.username);
+        }
+        // if (content.toLowerCase().includes('listar')) {
+        //     message.guild.members.fetch().then(
+        //         (value) => {
+        //             value.forEach()
+        //         }, (error) => {
+
+        //         }
+        //     )
+        // }
+    }
+});
+
+Client.on('messageCreate', async (message) => {
+    const { content, author } = message;
+    if (!message.author.bot && !message.author.system) {
+        if (content.toLowerCase().includes('teste')) {
+            const listaDeMembros = await message.guild.members.fetch();
+            listaDeMembros.forEach((member) => {
+                // console.log(member.displayName);
+                // console.log(member.presence);
+                if (!member.presence) return
+                if (!member.presence.activities || member.presence.activities.length === 0) return
+                const activity = member.presence.activities[0];
+                console.log(`Type: ${activity.type}`);
+                console.log(`Name: ${activity.name}`);
+                console.log(`Details: ${activity.details}`);
+                console.log(`State: ${activity.state}`);
+                    // console.log(member.user);
+                
+            });
         }
     }
 });
