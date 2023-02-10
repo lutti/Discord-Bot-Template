@@ -3,6 +3,7 @@ const { token } = require('./config.json');
 
 const Client = new Discord.Client({
     intents: [
+        Discord.GatewayIntentBits.GuildPresences,
         Discord.GatewayIntentBits.GuildMembers,
         Discord.GatewayIntentBits.GuildMessages,
         Discord.GatewayIntentBits.DirectMessages,
@@ -45,11 +46,15 @@ Client.on('messageCreate', async (message) => {
         if (content.toLowerCase().includes('teste')) {
             const listaDeMembros = await message.guild.members.fetch();
             listaDeMembros.forEach((member) => {
-                console.log(member.displayName);
-                console.log(member.user.presence);
+                // console.log(member.displayName);
+                // console.log(member.presence);
                 if (!member.presence) return
                 if (!member.presence.activities || member.presence.activities.length === 0) return
-                console.log(member.presence.activities[0]);
+                const activity = member.presence.activities[0];
+                console.log(`Type: ${activity.type}`);
+                console.log(`Name: ${activity.name}`);
+                console.log(`Details: ${activity.details}`);
+                console.log(`State: ${activity.state}`);
                     // console.log(member.user);
                 
             });
