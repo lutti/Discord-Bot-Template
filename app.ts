@@ -1,5 +1,7 @@
 import Discord from 'discord.js';
 import dotenv from 'dotenv';
+import { Options } from './src/classes/Options';
+import Jokenpo from './src/classes/Jokenpo';
 
 dotenv.config();
 
@@ -10,14 +12,14 @@ const Client = new Discord.Client({
         Discord.GatewayIntentBits.GuildMessages,
         Discord.GatewayIntentBits.DirectMessages,
         Discord.GatewayIntentBits.MessageContent,
-        Discord.GatewayIntentBits.Guilds
+        Discord.GatewayIntentBits.Guilds,
     ], partials: [
         Discord.Partials.Message,
         Discord.Partials.Channel,
         Discord.Partials.GuildMember,
         Discord.Partials.User,
-        Discord.Partials.GuildScheduledEvent
-    ]
+        Discord.Partials.GuildScheduledEvent,
+    ],
 });
 
 Client.on('ready', (client) => {
@@ -40,8 +42,8 @@ Client.on('messageCreate', async (message) => {
     if (content.toLowerCase().includes('teste')) {
         const listaDeMembros = await message.guild.members.fetch();
         listaDeMembros.forEach((member) => {
-            if (!member.presence) return
-            if (!member.presence.activities || member.presence.activities.length === 0) return
+            if (!member.presence) return;
+            if (!member.presence.activities || member.presence.activities.length === 0) return;
             const activity = member.presence.activities[0];
             if (activity.type === Discord.ActivityType.Playing) {
                 console.log(`${member.displayName} está jogando ${activity.name}`);
@@ -51,7 +53,29 @@ Client.on('messageCreate', async (message) => {
             }
         });
     }
-    
+
+});
+
+const regEx = /\bpedra\b|\bpapel\b|\btesoura\b/;
+
+Client.on('messageCreate', async (message) => {
+    const { content } = message;
+    const msg = content.toLowerCase();
+    let game: Jokenpo;
+    if (message.author.bot || message.author.system || !message.guild) return;
+
+    if (regEx.test(msg)) {
+        if (msg === 'pedra') {
+            game = new Jokenpo(Options.Pedra);
+        }
+        else if (msg === 'papel') {
+            game = new Jokenpo(Options.Papel);
+        }
+        game = new Jokenpo(Options.Tesoura);
+
+        message.reply(`${game.computerChoice.toString()} \nQuem ganhou foi ${game.GetResultado()}`);
+    }
+
 });
 
 Client.login(process.env.DISCORD_TOKEN);
