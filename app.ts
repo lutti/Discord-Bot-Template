@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-const dotenv = require('dotenv');
+import Discord from 'discord.js';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -34,23 +34,24 @@ Client.on('messageCreate', (message) => {
 });
 
 Client.on('messageCreate', async (message) => {
-    const { content, author } = message;
-    if (!message.author.bot && !message.author.system) {
-        if (content.toLowerCase().includes('teste')) {
-            const listaDeMembros = await message.guild.members.fetch();
-            listaDeMembros.forEach((member) => {
-                if (!member.presence) return
-                if (!member.presence.activities || member.presence.activities.length === 0) return
-                const activity = member.presence.activities[0];
-                if (activity.type === Discord.ActivityType.Playing) {
-                    console.log(`${member.displayName} está jogando ${activity.name}`);
-                }
-                if (activity.type === Discord.ActivityType.Watching) {
-                    console.log(`${member.displayName} está assistindo ${activity.details}`);
-                }
-            });
-        }
+    const { content } = message;
+    if (message.author.bot || message.author.system || !message.guild) return;
+
+    if (content.toLowerCase().includes('teste')) {
+        const listaDeMembros = await message.guild.members.fetch();
+        listaDeMembros.forEach((member) => {
+            if (!member.presence) return
+            if (!member.presence.activities || member.presence.activities.length === 0) return
+            const activity = member.presence.activities[0];
+            if (activity.type === Discord.ActivityType.Playing) {
+                console.log(`${member.displayName} está jogando ${activity.name}`);
+            }
+            if (activity.type === Discord.ActivityType.Watching) {
+                console.log(`${member.displayName} está assistindo ${activity.details}`);
+            }
+        });
     }
+    
 });
 
 Client.login(process.env.DISCORD_TOKEN);
