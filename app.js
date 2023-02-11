@@ -46,17 +46,15 @@ Client.on('messageCreate', async (message) => {
         if (content.toLowerCase().includes('teste')) {
             const listaDeMembros = await message.guild.members.fetch();
             listaDeMembros.forEach((member) => {
-                // console.log(member.displayName);
-                // console.log(member.presence);
                 if (!member.presence) return
                 if (!member.presence.activities || member.presence.activities.length === 0) return
                 const activity = member.presence.activities[0];
-                console.log(`Type: ${activity.type}`);
-                console.log(`Name: ${activity.name}`);
-                console.log(`Details: ${activity.details}`);
-                console.log(`State: ${activity.state}`);
-                    // console.log(member.user);
-                
+                if (activity.type === Discord.ActivityType.Playing) {
+                    console.log(`${member.displayName} está jogando ${activity.name}`);
+                }
+                if (activity.type === Discord.ActivityType.Watching) {
+                    console.log(`${member.displayName} está assistindo ${activity.details}`);
+                }
             });
         }
     }
