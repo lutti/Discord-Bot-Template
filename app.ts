@@ -71,9 +71,11 @@ Client.on('messageCreate', async (message) => {
         else if (msg === 'papel') {
             game = new Jokenpo(Options.Papel);
         }
-        game = new Jokenpo(Options.Tesoura);
+        else {
+            game = new Jokenpo(Options.Tesoura);
+        }
 
-        message.reply(`${game.computerChoice.toString()} \nQuem ganhou foi ${game.GetResultado()}`);
+        message.reply(`${game.computerChoiceText} \n${game.GetResultado()}`);
     }
 
 });

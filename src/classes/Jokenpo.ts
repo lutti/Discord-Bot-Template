@@ -1,13 +1,24 @@
 import { Options } from './Options';
 
 class Jokenpo {
-    protected _winner: 'Bot' | 'Player' | 'Empate' | undefined;
+    protected _winner = '';
     protected _playerChoice: Options;
     protected _computerChoice: Options;
+    protected _cChoiceString = '';
 
     constructor(pChoice: Options) {
         this._playerChoice = pChoice;
+
         this._computerChoice = this._generateComputerChoice();
+        if (this.computerChoice === Options.Pedra) {
+            this._cChoiceString = 'Pedra!';
+        }
+        else if (this.computerChoice === Options.Papel) {
+            this._cChoiceString = 'Papel!';
+        }
+        else {
+            this._cChoiceString = 'Tesoura!';
+        }
     }
 
     get winner() {
@@ -22,13 +33,17 @@ class Jokenpo {
         return this._computerChoice;
     }
 
+    get computerChoiceText() {
+        return this._cChoiceString;
+    }
+
     private _generateComputerChoice(): Options {
         return Math.floor(Math.random() * 3);
     }
 
     public GetResultado(): string {
         if (this.playerChoice.toString() === this.computerChoice.toString()) {
-            this._winner = 'Empate';
+            this._winner = 'Empatamos!';
         }
         else if (
             ((this.playerChoice === Options.Papel) && (this.computerChoice === Options.Pedra))
@@ -37,10 +52,10 @@ class Jokenpo {
             ||
             ((this.playerChoice === Options.Tesoura) && (this.computerChoice === Options.Papel))
         ) {
-            this._winner = 'Player';
+            this._winner = 'Parabens vc venceu a máquina!';
         }
         else {
-            this._winner = 'Bot';
+            this._winner = 'Nada seu tudo meu! Perdeu!';
         }
 
         return this._winner;
