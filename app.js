@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
-const { token } = require('./config.json');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const Client = new Discord.Client({
     intents: [
@@ -28,15 +30,6 @@ Client.on('messageCreate', (message) => {
         if (content.toLowerCase().includes('hello') || content.toLowerCase().includes('util')) {
             message.reply('Hello World! to you ' + author.username);
         }
-        // if (content.toLowerCase().includes('listar')) {
-        //     message.guild.members.fetch().then(
-        //         (value) => {
-        //             value.forEach()
-        //         }, (error) => {
-
-        //         }
-        //     )
-        // }
     }
 });
 
@@ -60,4 +53,4 @@ Client.on('messageCreate', async (message) => {
     }
 });
 
-Client.login(token);
+Client.login(process.env.DISCORD_TOKEN);
