@@ -61,6 +61,7 @@ const regEx = /\bpedra\b|\bpapel\b|\btesoura\b/;
 Client.on('messageCreate', async (message) => {
     const { content } = message;
     const msg = content.toLowerCase();
+
     let game: Jokenpo;
     if (message.author.bot || message.author.system || !message.guild) return;
 
@@ -77,7 +78,26 @@ Client.on('messageCreate', async (message) => {
 
         message.reply(`${game.computerChoiceText} \n${game.GetResultado()}`);
     }
+});
 
+Client.on('presenceUpdate', async (oldP, newP) => {
+
+    const channel = await Client.channels.fetch('1072336531282473011', {});
+    // console.log(`presenceUpdate: ${oldP} | ${newP}`);
+
+    const textChannel = channel as Discord.TextChannel;
+
+    if (!newP.activities || newP.activities.length === 0) return;
+
+    const activity = newP.activities[0];
+    if (activity.type === Discord.ActivityType.Playing) {
+        textChannel.send(`Alá! ${newP.user?.username} está jogando ${activity.name}`);
+    }
+    if (activity.type === Discord.ActivityType.Watching) {
+        textChannel.send(`Alá! ${newP.user?.username} está assistindo ${activity.details}`);
+    }
+
+    // console.log(`Canais: ${canais}`);
 });
 
 Client.login(process.env.DISCORD_TOKEN);
