@@ -25,7 +25,12 @@ class Game {
     }
 
     addNewJokenpo(jogo: Jokenpo): void {
+        if (jogo.winner === 'Empate') this._draws += 1;
+        else if (jogo.winner === 'Bot') this._loses += 1;
+        else this._wins += 1;
+
         this._jokenpos.push(jogo);
+
         if (this.rounds === this._currentRound) {
             this._generateSummary();
             this._finished = true;
