@@ -55,11 +55,11 @@ class Jokenpo {
             ((this.playerChoice === Options.Tesoura) && (this.computerChoice === Options.Papel))
         ) {
             this._resultado = 'Parabens vc venceu a máquina!';
-            this._winner = 'Bot';
+            this._winner = 'Player';
         }
         else {
             this._resultado = 'Nada seu tudo meu! Perdeu!';
-            this._winner = 'Player';
+            this._winner = 'Bot';
         }
 
         return this._resultado;

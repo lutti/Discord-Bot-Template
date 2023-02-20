@@ -59,7 +59,7 @@ Client.on('messageCreate', async (message) => {
 
 const regEx = /\bpedra\b|\bpapel\b|\btesoura\b/;
 
-const gameList = new Game();
+let gameList = new Game();
 
 Client.on('messageCreate', async (message) => {
     const { content } = message;
@@ -87,6 +87,7 @@ Client.on('messageCreate', async (message) => {
 
     if (gameList.finished) {
         message.reply(gameList.summary);
+        gameList = new Game();
     }
 });
 
