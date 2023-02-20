@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import dotenv from 'dotenv';
 import { Options } from './src/classes/Options';
 import Jokenpo from './src/classes/Jokenpo';
+import Game from './src/classes/Game';
 
 dotenv.config();
 
@@ -58,14 +59,17 @@ Client.on('messageCreate', async (message) => {
 
 const regEx = /\bpedra\b|\bpapel\b|\btesoura\b/;
 
+const gameList = new Game();
+
 Client.on('messageCreate', async (message) => {
     const { content } = message;
     const msg = content.toLowerCase();
 
-    let game: Jokenpo;
     if (message.author.bot || message.author.system || !message.guild) return;
 
     if (regEx.test(msg)) {
+        let game: Jokenpo;
+
         if (msg === 'pedra') {
             game = new Jokenpo(Options.Pedra);
         }
@@ -77,6 +81,12 @@ Client.on('messageCreate', async (message) => {
         }
 
         message.reply(`${game.computerChoiceText} \n${game.GetResultado()}`);
+
+        gameList.addNewJokenpo(game);
+    }
+
+    if (gameList.finished) {
+        message.reply(gameList.summary);
     }
 });
 

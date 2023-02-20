@@ -4,7 +4,7 @@ class Game {
     private _wins = 0;
     private _loses = 0;
     private _draws = 0;
-    private _jokenpos: Jokenpo[];
+    private _jokenpos: Jokenpo[] = [];
     private _currentRound = 1;
     private _summary = 'Jogo não terminado';
     private _finished = false;
