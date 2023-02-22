@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { Options } from './src/classes/Options';
 import Jokenpo from './src/classes/Jokenpo';
 import Game from './src/classes/Game';
+import AcharNumeroNoArray from './src/utils/utils';
 
 dotenv.config();
 
@@ -67,6 +68,13 @@ Client.on('messageCreate', async (message) => {
 
     if (message.author.bot || message.author.system || !message.guild) return;
 
+    if (msg.includes('rounds')) {
+        const num = AcharNumeroNoArray(msg.split(' '));
+        if (num) {
+            gameList = new Game(num);
+        }
+    }
+
     if (regEx.test(msg)) {
         let game: Jokenpo;
 
@@ -87,6 +95,7 @@ Client.on('messageCreate', async (message) => {
 
     if (gameList.finished) {
         message.reply(gameList.summary);
+        message.reply('Quantos rounds gostaria de jogar?');
         gameList = new Game();
     }
 });
