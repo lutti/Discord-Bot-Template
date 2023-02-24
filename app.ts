@@ -60,6 +60,7 @@ Client.on('messageCreate', async (message) => {
 
 const regEx = /\bpedra\b|\bpapel\b|\btesoura\b/;
 
+// Por padrao joga 3 rounds para depois exibir o resumo
 let gameList = new Game();
 
 Client.on('messageCreate', async (message) => {
@@ -68,6 +69,7 @@ Client.on('messageCreate', async (message) => {
 
     if (message.author.bot || message.author.system || !message.guild) return;
 
+    // Sempre antes de cada jogo ve se vc quer jogar por rounds ex.: 10 rounds
     if (msg.includes('rounds')) {
         const num = AcharNumeroNoArray(msg.split(' '));
         if (num) {
@@ -75,6 +77,7 @@ Client.on('messageCreate', async (message) => {
         }
     }
 
+    // Cada mensagem verifica por regex se escolheu pedra papel tesoura e gera a resposta do bot
     if (regEx.test(msg)) {
         let game: Jokenpo;
 
@@ -93,6 +96,7 @@ Client.on('messageCreate', async (message) => {
         gameList.addNewJokenpo(game);
     }
 
+    // Quando terminado todos os rounds exibe o resultado e pergunta quantos rounds gostaria de jogar
     if (gameList.finished) {
         message.reply(gameList.summary);
         message.reply('Quantos rounds gostaria de jogar?');
