@@ -41,7 +41,7 @@ Client.on('messageCreate', async (message) => {
     const { content } = message;
     if (message.author.bot || message.author.system || !message.guild) return;
 
-    if (content.toLowerCase().includes('teste')) {
+    if (content.toLowerCase().includes('listar')) {
         const listaDeMembros = await message.guild.members.fetch();
         listaDeMembros.forEach((member) => {
             if (!member.presence) return;
