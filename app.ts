@@ -47,6 +47,8 @@ Client.on('messageCreate', async (message) => {
             if (!member.presence) return;
             if (!member.presence.activities || member.presence.activities.length === 0) return;
             const activity = member.presence.activities[0];
+            console.log(activity);
+            
             if (activity.type === Discord.ActivityType.Playing) {
                 console.log(`${member.displayName} está jogando ${activity.name}`);
             }
